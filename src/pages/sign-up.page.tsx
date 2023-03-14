@@ -1,9 +1,9 @@
 import { AuthStepper, ConfirmEmailStep, EmailStep, PasswordStep, SendStep, UserNameStep } from "@/module/auth";
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
-import { Form, Formik, useField, useFormikContext } from "formik";
+import { Form, Formik } from "formik";
 import Image from "next/image";
-import React, { useRef } from 'react';
+import React from 'react';
 import Logo from "../assets/images/Chat.png";
 import * as Yup from "yup";
 import { UserAuthDto } from "@/shared/api/back";
