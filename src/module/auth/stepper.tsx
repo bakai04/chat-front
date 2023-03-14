@@ -1,17 +1,15 @@
 import * as React from 'react';
 import MobileStepper from '@mui/material/MobileStepper';
 import Button from '@mui/material/Button';
-// import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
-// import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import { KeyboardArrowLeft, KeyboardArrowRight } from '@mui/icons-material';
 
 interface AuthStepper {
   activeStep: number,
   setActiveStep: (value: number | ((value: number) => number)) => void;
+  steps: number;
 }
 
-
-export const AuthStepper = ({activeStep, setActiveStep}:AuthStepper) => {
-
+export const AuthStepper = ({ activeStep, setActiveStep, steps }: AuthStepper) => {
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -23,27 +21,19 @@ export const AuthStepper = ({activeStep, setActiveStep}:AuthStepper) => {
   return (
     <MobileStepper
       variant="progress"
-      steps={6}
+      steps={steps}
       position="static"
       activeStep={activeStep}
       sx={{ maxWidth: "600px", width: "100%", marginTop: "60px" }}
       nextButton={
-        <Button size="small" variant={"contained"} onClick={handleNext} disabled={activeStep === 5}>
+        <Button size="small" variant={"contained"} onClick={handleNext} disabled={activeStep === steps - 2}>
           Next
-          {/* {theme.direction === 'rtl' ? (
-            <KeyboardArrowLeft />
-          ) : (
-            <KeyboardArrowRight />
-          )} */}
+          <KeyboardArrowRight />
         </Button>
       }
       backButton={
         <Button size="small" variant={"contained"} onClick={handleBack} disabled={activeStep === 0}>
-          {/* {theme.direction === 'rtl' ? (
-            <KeyboardArrowRight />
-          ) : (
-            <KeyboardArrowLeft />
-          )} */}
+          <KeyboardArrowLeft />
           Back
         </Button>
       }

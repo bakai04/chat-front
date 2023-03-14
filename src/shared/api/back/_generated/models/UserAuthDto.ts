@@ -1,7 +1,6 @@
 export interface UserAuthDto {
   email: string;
   password: string;
-  name?: string;
-  status?: string;
+  userName?: string;
   image?: string | File
 }

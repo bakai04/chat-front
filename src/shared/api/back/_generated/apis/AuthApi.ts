@@ -1,21 +1,22 @@
- import useSWR, { SWRConfiguration, SWRResponse } from "swr";
+import * as runtime from "../runtime";
 import { UserAuthDto } from "../models";
-import { ApiResponse, BaseAPI, JSONApiResponse, RequestOpts } from "../runtime";
 
- export class UserAuthApi extends BaseAPI {
-  userAuthRegistrationOptions = (body: UserAuthDto):RequestOpts => {
+ export class UserAuthApi extends runtime.BaseAPI {
+
+  userAuthRegistrationOptions = (body: UserAuthDto):runtime.RequestOpts => {
     return {
       body,
-      path: "/auth/registration",
+      path: "/auth/sign-up/",
       method: "POST",
       headers: {}
     }
   }
 
-  userAuthRegistration = async ( body: UserAuthDto ):Promise<ApiResponse<UserAuthDto>> => {
+  userAuthRegistration = async ( body: UserAuthDto ):Promise<runtime.ApiResponse<UserAuthDto>> => {
     const requestOptions = this.userAuthRegistrationOptions(body);
     const response = await this.request(requestOptions);
-    return new JSONApiResponse(response, (jsonValue) => jsonValue);
+    
+    return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue);
   }
 }
  

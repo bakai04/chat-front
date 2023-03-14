@@ -20,7 +20,7 @@ export const darkTheme = createTheme({
     },
 
     grey: {
-      400: "#4C4C4C"
+      400: "#535353"
     },
   },
   typography: {
