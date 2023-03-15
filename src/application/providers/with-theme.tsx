@@ -1,19 +1,15 @@
+import { useTheme } from "@/shared/lib/theme";
 import { darkTheme, lightTheme } from "@/shared/styles/themes";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { AppProps } from "next/app"
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 export const withTheme = (app: (props: AppProps) => React.ReactNode) => {
   const WithTheme = (props: AppProps) => {
-    const [isDarkMode, setIsDarkMode] = useState(false);
-
-    useEffect(() => {
-      const isDarkModeEnabled = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      setIsDarkMode(isDarkModeEnabled);
-    }, [isDarkMode]);
+    const [currentTheme] = useTheme();
 
     return (
-      <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <ThemeProvider theme={currentTheme || lightTheme}>
         <CssBaseline />
         {app(props)                                                                                                                                        }
       </ThemeProvider>

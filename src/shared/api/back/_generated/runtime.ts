@@ -45,10 +45,7 @@
    protected async request(context: RequestOpts, initOverrides?: RequestInit): Promise<Response> {
      const { url, init } = this.createFetchParams(context, initOverrides);
      const response = await this.fetchApi(url, init);
-     if (response.status >= 200 && response.status < 300) {
-       return response;
-     }
-     throw response;
+     return response;
    }
  
    protected async swrFetch<T extends any>(data: Promise<ApiResponse<T>>): Promise<T> {
@@ -103,6 +100,7 @@
       }
       
      let response = await (this.configuration.fetchApi || fetch)(fetchParams.url, fetchParams.init);
+     
      for (const middleware of this.middleware) {
        if (middleware.post) {
          response =

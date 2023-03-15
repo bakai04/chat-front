@@ -26,13 +26,13 @@ export const AuthStepper = ({ activeStep, setActiveStep, steps }: AuthStepper) =
       activeStep={activeStep}
       sx={{ maxWidth: "600px", width: "100%", marginTop: "60px" }}
       nextButton={
-        <Button size="small" variant={"contained"} onClick={handleNext} disabled={activeStep === steps - 2}>
+        <Button size="small" type="button" variant={"contained"} onClick={handleNext} disabled={activeStep === steps - 2}>
           Next
           <KeyboardArrowRight />
         </Button>
       }
       backButton={
-        <Button size="small" variant={"contained"} onClick={handleBack} disabled={activeStep === 0}>
+        <Button size="small" type="button" variant={"contained"} onClick={handleBack} disabled={activeStep === 0}>
           <KeyboardArrowLeft />
           Back
         </Button>

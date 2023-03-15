@@ -7,6 +7,8 @@ import React from 'react';
 import Logo from "../assets/images/Chat.png";
 import * as Yup from "yup";
 import { UserAuthDto } from "@/shared/api/back";
+import { api } from "@/shared/api";
+import { callToast } from "@/shared/lib/call-toast";
 
 export const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Обязательное поле").max(100, "Название не должно превышать 100 символов"),
@@ -64,11 +66,15 @@ const registrationSteps = [
 const SignUp = () => {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
-
-  const handleSubmit = (values: UserAuthDto) => {
+  const handleSubmit = async (values: UserAuthDto) => {
+    const response = await api.userAuth.userAuthRegistration({
+      email: values.email,
+      userName: values.userName,
+      password: values.password
+    })
+    if (response?.status >= 200 && response?.status < 300) setActiveStep(registrationSteps.length);
+    if (response?.statusCode && response?.statusCode >= 200 && response?.statusCode < 300) setActiveStep(registrationSteps.length);
+    callToast(response);
   }
 
   return (
@@ -81,22 +87,28 @@ const SignUp = () => {
           userName: "",
           password: "",
           confirm_password: "",
-          image: ""
         }}
-        validateOnBlur
         validateOnChange
+        validateOnBlur
         validationSchema={validationSchema}
         onSubmit={(values) => {
-          console.log(values);
+          handleSubmit(values)
         }}
       >
-        {() => (
+        {({ handleChange, handleBlur }) => (
           <>
             <FormWrapper>
               {
                 registrationSteps.map((step, index) => {
                   const StepComponent = step.component;
-                  return <StepComponent key={index} setActiveStep={setActiveStep} isActive={activeStep === index} />
+                  return <StepComponent
+                    key={index}
+                    setActiveStep={setActiveStep}
+                    handleChange={handleChange}
+                    handleBlur={handleBlur}
+                    isActive={activeStep === index}
+
+                  />
                 })
               }
             </FormWrapper>
@@ -104,7 +116,7 @@ const SignUp = () => {
               activeStep === registrationSteps.length &&
               <ConfirmEmailStep isActive={activeStep === registrationSteps.length} setActiveStep={setActiveStep} />
             }
-            <AuthStepper steps={registrationSteps.length+1} activeStep={activeStep} setActiveStep={setActiveStep} />
+            <AuthStepper steps={registrationSteps.length + 1} activeStep={activeStep} setActiveStep={setActiveStep} />
           </>
         )}
       </Formik>
