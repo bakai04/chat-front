@@ -1,4 +1,4 @@
-import { AuthStepper, ConfirmEmailStep, EmailStep, PasswordStep, SendStep, UserNameStep } from "@/module/auth";
+import { AuthStepper, registrationSteps} from "@/module/auth";
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
 import { Form, Formik } from "formik";
@@ -9,6 +9,7 @@ import * as Yup from "yup";
 import { UserAuthDto } from "@/shared/api/back";
 import { api } from "@/shared/api";
 import { callToast } from "@/shared/lib/call-toast";
+import { ConfirmEmailStep } from "@/module/auth/steps/confirmEmailStep";
 
 export const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Обязательное поле").max(100, "Название не должно превышать 100 символов"),
@@ -44,25 +45,6 @@ const FormWrapper = styled(Form)`
   justify-content: center;
 `
 
-const registrationSteps = [
-  {
-    component: UserNameStep,
-    title: "Step 1: Enter your email and password"
-  },
-  {
-    component: EmailStep,
-    title: ""
-  },
-  {
-    component: PasswordStep,
-    title: ""
-  },
-  {
-    component: SendStep,
-    title: ""
-  },
-]
-
 const SignUp = () => {
   const [activeStep, setActiveStep] = React.useState(0);
 
@@ -72,8 +54,7 @@ const SignUp = () => {
       userName: values.userName,
       password: values.password
     })
-    if (response?.status >= 200 && response?.status < 300) setActiveStep(registrationSteps.length);
-    if (response?.statusCode && response?.statusCode >= 200 && response?.statusCode < 300) setActiveStep(registrationSteps.length);
+    if (response.raw.ok) setActiveStep(registrationSteps.length);
     callToast(response);
   }
 

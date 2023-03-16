@@ -1,12 +1,15 @@
-import { page } from "@/shared/lib";
 import styled from "@emotion/styled";
 import { Button, TextField, Typography } from "@mui/material";
+import { Form, Formik } from "formik";
 import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
 import Logo from "../assets/images/Chat.png";
 import { pages } from "./_router";
-
+import * as Yup from "yup";
+import { api, UserAuthDto } from "@/shared/api";
+import { callToast } from "@/shared/lib/call-toast";
+import { PasswordInput } from "@/shared/ui";
 
 const Wrapper = styled.div`
   display: flex;
@@ -22,7 +25,7 @@ const Title = styled(Typography)`
   margin-top: 24px;
 `
 
-const Form = styled.form`
+const FormWrapper = styled(Form)`
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -36,7 +39,6 @@ const Input = styled(TextField)`
 `
 
 const SendButton = styled(Button)`
-  height: 48px;
   width: 100%;
 `
 
@@ -45,22 +47,68 @@ const ButtonLink = styled(Link)`
   text-decoration: none;
   width: 100%;
 `
+export const validationSchema = Yup.object().shape({
+  email: Yup.string().required("Обязательное поле").email("Введите правильный адрес"),
+  password: Yup.string()
+    .required("Обязательное поле")
+    .uppercase("Пароль должен содержать за главную букву")
+    .min(6, "Пароль должен превышать 6 символов"),
+});
+
 
 const Login = () => {
+  const handleSubmit = async (value: Omit<UserAuthDto, "userName">) => {
+    const response = await api.userAuth.login(value);
+    if (response.raw.ok) {
+      const tokens = await response.value();
+      localStorage.setItem("token", JSON.stringify(tokens));
+    } else {
+      callToast(response);
+    }
+  }
+
   return (
     <Wrapper>
       <Image src={Logo} width={96} height={96} alt={"logo"} />
       <Title variant={"h1"} align={"center"}>Welcome to Scale Chat</Title>
-      <Form>
-        <Input id="outlined-basic" type={"email"} label="email" variant="outlined" />
-        <Input id="outlined-basic" type={"password"} label="password" variant="outlined" />
-        <SendButton variant="contained">Login</SendButton>
-        <ButtonLink href={pages.signUp.href}>
-          <SendButton variant="contained" >
-            Create a new account
-          </SendButton>
-        </ButtonLink>
-      </Form>
+      <Formik
+        initialValues={{
+          email: "",
+          password: "",
+        }}
+        validateOnChange
+        validateOnBlur
+        validationSchema={validationSchema}
+        onSubmit={(values) => {
+          handleSubmit(values)
+        }}
+      >
+        {({ handleChange, handleBlur, errors }) => (
+          <FormWrapper>
+            <Input
+              onChange={handleChange}
+              onBlur={handleBlur}
+              name={"email"}
+              type={"email"}
+              label={errors.email || "email"}
+              error={!!errors.email}
+              variant="outlined" />
+            <PasswordInput
+              onChange={handleChange}
+              name={"password"}
+              type={"password"}
+              label={errors.password || "password"}
+              error={!!errors.password}
+              variant="outlined" />
+            <SendButton size="medium" variant="contained" type="submit">Login</SendButton>
+            <ButtonLink href={pages.signUp.href} type={"button"}>
+              <SendButton size="medium" variant="contained" >
+                Create a new account
+              </SendButton>
+            </ButtonLink>
+          </FormWrapper>
+        )}
+      </Formik>
     </Wrapper>
   )
 }

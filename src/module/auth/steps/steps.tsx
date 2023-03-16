@@ -1,12 +1,8 @@
-import { pages } from "@/pages/_router"
-import { api } from "@/shared/api"
-import { callToast } from "@/shared/lib/call-toast"
 import { PasswordInput } from "@/shared/ui"
 import styled from "@emotion/styled"
 import { Button, TextField, Typography } from "@mui/material"
-import { useField, useFormikContext } from "formik"
-import { useRouter } from "next/router"
-import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { useField } from "formik"
+import React  from 'react'
 
 const Wrapper = styled.div`
   display: flex;
@@ -23,7 +19,8 @@ const Description = styled(Typography)`
   font-size: 14px;
   text-align: center;
 `
-interface EmailStep {
+
+export interface EmailStep {
   setActiveStep: (value: number | ((value: number) => number)) => void;
   isActive: boolean;
   handleChange: (e: React.ChangeEvent<any>) => void;
@@ -88,44 +85,17 @@ export const SendStep = (props: EmailStep) => {
   )
 }
 
-interface ConfirmEmailStep extends Partial<EmailStep> {
-
-}
-
-export const ConfirmEmailStep = (props: ConfirmEmailStep) => {
-  const [code, setCode] = useState("");
-  const [seconds, setSeconds] = useState(60);
-  const [, metaEmail] = useField("email");
-  const path = useRouter();
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setCode(e.target.value);
-  }
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setSeconds(seconds => seconds - 1);
-    }, 1000);
-    if (!seconds) clearInterval(interval)
-    return () => clearInterval(interval);
-  }, [seconds]);
-
-  const onSubmit = async () => {
-    const response = await api.userAuth.emailComfirm({code, email: metaEmail.value});
-    callToast(response);
-    path.push(pages.signUp.href);
-  }
-
-  return (
-    <Wrapper style={{ display: props.isActive ? "flex" : "none" }}>
-      <Input
-        id="outlined-basic"
-        value={code}
-        onChange={handleChange}
-        label="code"
-        variant="outlined" />
-      <Button variant="contained" disabled={!(code.length === 6)} onClick={onSubmit}>Confirm</Button>
-      <Button variant="contained" disabled={!!seconds}>{seconds ? seconds : "Resend"}</Button>
-    </Wrapper >
-  )
-}
+export const registrationSteps = [
+  {
+    component: UserNameStep,
+  },
+  {
+    component: EmailStep,
+  },
+  {
+    component: PasswordStep,
+  },
+  {
+    component: SendStep,
+  },
+]
