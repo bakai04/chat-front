@@ -39,7 +39,7 @@ export const ConfirmEmailStep = (props: ConfirmEmailStep) => {
   }
 
   useEffect(() => {
-    if (!seconds) return;
+    if (seconds <= 0) return;
     const interval = setInterval(() => {
       setSeconds(seconds => seconds - 1);
     }, 1000);
@@ -51,7 +51,7 @@ export const ConfirmEmailStep = (props: ConfirmEmailStep) => {
     callToast(response);
 
     if (response.raw.ok) {
-      path.push(pages.login.href);
+      path.push("/login");
     }
   }
 

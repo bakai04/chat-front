@@ -36,6 +36,5 @@ export const PasswordInput = (props: TextFieldProps) => {
         {showPassword ? <VisibilityOff /> : <Visibility />}
       </VisibleButton>
     </Wrapper>
-
   )
 }

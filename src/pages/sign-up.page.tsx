@@ -1,4 +1,4 @@
-import { AuthStepper, registrationSteps} from "@/module/auth";
+import { AuthStepper, registrationSteps} from "@/widgets/auth";
 import styled from "@emotion/styled";
 import { Typography } from "@mui/material";
 import { Form, Formik } from "formik";
@@ -9,7 +9,7 @@ import * as Yup from "yup";
 import { UserAuthDto } from "@/shared/api/back";
 import { api } from "@/shared/api";
 import { callToast } from "@/shared/lib/call-toast";
-import { ConfirmEmailStep } from "@/module/auth/steps/confirmEmailStep";
+import { ConfirmEmailStep } from "@/widgets/auth/steps/confirmEmailStep";
 
 export const validationSchema = Yup.object().shape({
   userName: Yup.string().required("Обязательное поле").max(100, "Название не должно превышать 100 символов"),
