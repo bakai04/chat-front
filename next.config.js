@@ -4,7 +4,10 @@ const nextConfig = {
   swcMinify: true,
   pageExtensions: ["page.tsx", "page.ts", "page.jsx", "page.js"],
   images: {
-    domains: ["control-online.yoldi.agency"],
+    protocol: 'https',
+    hostname: 'https://web.whatsapp.com',
+    port: '',
+    pathname: '/img/**',
   },
 
   webpack(config) {

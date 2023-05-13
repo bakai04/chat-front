@@ -1,8 +1,13 @@
-import { Inter } from 'next/font/google'
+import { LeftColumn, MainLayout, RightColumn } from "@/widgets"
+import { Divider } from "@mui/material"
 
-export default function Home() {
+const Home = () => {
   return (
-    <>
-    </>
+    <MainLayout>
+      <LeftColumn></LeftColumn>
+      <RightColumn>s</RightColumn>
+    </MainLayout>
   )
 }
+
+export default Home;
