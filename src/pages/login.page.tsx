@@ -7,7 +7,6 @@ import React from 'react';
 import Logo from "../assets/images/Chat.png";
 import { pages } from "./_router";
 import * as Yup from "yup";
-import { api, UserAuthDto } from "@/shared/api";
 import { callToast } from "@/shared/lib/call-toast";
 import { PasswordInput } from "@/shared/ui";
 import { useRouter } from "next/router";
@@ -60,15 +59,15 @@ export const validationSchema = Yup.object().shape({
 const Login = () => {
   const router = useRouter();
   
-  const handleSubmit = async (value: Omit<UserAuthDto, "userName">) => {
-    const response = await api.userAuth.login(value);
-    if (response.raw.ok) {
-      const tokens = await response.value();
-      localStorage.setItem("token", JSON.stringify(tokens));
-      router.push("/");
-    } else {
-      callToast(response);
-    }
+  const handleSubmit = async (value: any) => {
+    // const response = await api.userAuth.login(value);
+    // if (response.raw.ok) {
+    //   const tokens = await response.value();
+    //   localStorage.setItem("token", JSON.stringify(tokens));
+    //   router.push("/");
+    // } else {
+    //   callToast(response);
+    // }
   }
 
   return (

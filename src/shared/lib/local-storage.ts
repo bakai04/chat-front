@@ -47,7 +47,7 @@ export class LocalStorage {
   };
 
   private static notify = (key: string, value: string | undefined) => {
-    for (const it of LocalStorage.subscribers[key] || []) {
+     for (const it of LocalStorage.subscribers[key] || []) {
       it(value);
     }
   };

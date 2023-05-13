@@ -6,8 +6,6 @@ import Image from "next/image";
 import React from 'react';
 import Logo from "../assets/images/Chat.png";
 import * as Yup from "yup";
-import { UserAuthDto } from "@/shared/api/back";
-import { api } from "@/shared/api";
 import { callToast } from "@/shared/lib/call-toast";
 import { ConfirmEmailStep } from "@/widgets/auth/steps/confirmEmailStep";
 
@@ -48,14 +46,14 @@ const FormWrapper = styled(Form)`
 const SignUp = () => {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleSubmit = async (values: UserAuthDto) => {
-    const response = await api.userAuth.userAuthRegistration({
-      email: values.email,
-      userName: values.userName,
-      password: values.password
-    })
-    if (response.raw.ok) setActiveStep(registrationSteps.length);
-    callToast(response);
+  const handleSubmit = async (values:any) => {
+    // const response = await api.userAuth.userAuthRegistration({
+    //   email: values.email,
+    //   userName: values.userName,
+    //   password: values.password
+    // })
+    // if (response.raw.ok) setActiveStep(registrationSteps.length);
+    // callToast(response);
   }
 
   return (

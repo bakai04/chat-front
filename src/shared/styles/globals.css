@@ -1,5 +1,8 @@
 body {
   overflow: hidden;
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
 }
 
 ::-webkit-scrollbar-track {
@@ -18,5 +21,5 @@ body {
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
   opacity: 0.5 !important;
-  background-color: #555;
+  background-color: #374045;
 }

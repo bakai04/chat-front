@@ -1,6 +1,3 @@
-import { pages } from "@/pages/_router";
-import { api } from "@/shared/api";
-import { callToast } from "@/shared/lib/call-toast";
 import styled from "@emotion/styled";
 import { Button, TextField, Typography } from "@mui/material";
 import { useField } from "formik";
@@ -47,12 +44,12 @@ export const ConfirmEmailStep = (props: ConfirmEmailStep) => {
   }, []);
 
   const onSubmit = async () => {
-    const response = await api.userAuth.emailComfirm({ code, email: metaEmail.value });
-    callToast(response);
+    // const response = await api.userAuth.emailComfirm({ code, email: metaEmail.value });
+    // callToast(response);
 
-    if (response.raw.ok) {
-      path.push("/login");
-    }
+    // if (response.raw.ok) {
+    //   path.push("/login");
+    // }
   }
 
   return (

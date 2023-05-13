@@ -6,12 +6,19 @@ interface MainLayout {
 }
 
 const Wrapper = styled.div`
-  display: flex;
 `
-export const MainLayout = (props:MainLayout) => {
+
+const Container = styled.div`
+  display: flex;
+  max-width: 1680px;
+  margin: 0 auto;
+`
+export const MainLayout = (props: MainLayout) => {
   return (
     <Wrapper>
-      {props.children}
+      <Container>
+        {props.children}
+      </Container>
     </Wrapper>
   )
 }
