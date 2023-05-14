@@ -1,5 +1,7 @@
+import { IChat } from "@/shared/interfaces"
 import styled from "@emotion/styled"
 import { Avatar, Button, Divider, MenuItem, Typography } from "@mui/material"
+import Link from "next/link"
 import React from 'react'
 
 const Name = styled(Typography)`
@@ -27,23 +29,20 @@ const Wrapper = styled(MenuItem)`
 `
 
 interface ChatProps {
-  userData: any;
+  data: IChat;
 }
 
 
 export const Chat = (props: ChatProps) => {
   return (
-    <>
+    <Link href={`/chat/${props.data.id}`}>
       <Wrapper>
-        <Avatar style={{
-          width: "54px",
-          height: "54px",
-        }} src={"https://djinni.co/api/imgproxy/-uvoyTuU6XlKfnWog-PBWnel932YXvV-boWERB7GkvY/rs:fit:280:280:True/aHR0cHM6Ly9wLmRq/aW5uaS5jby9iZi82/NzMwYTc2MjI2M2Ix/YzI2Y2NmNjdkZTNl/NzY2OWQvMkQ4QUUx/ODgtMDZGRS00ODM3/LTg4RUYtMDk4NUMy/MTlCNzg4XzQwMC5q/cGc.jpg"} />
+        <Avatar style={{ width: "54px", height: "54px" }} />
         <ChatInner>
-          <Name paragraph noWrap>{props.userData.userName}</Name>
-          <Message paragraph noWrap>dasdasdasdasd asd as d asd ass das фыв фывфывdasdas dasdasdasd asdasdasd</Message>
+          <Name paragraph noWrap>{props.data.name}</Name>
+          <Message paragraph noWrap>. . .</Message>
         </ChatInner>
       </Wrapper>
-    </>
+    </Link>
   )
 }

@@ -1,5 +1,5 @@
 import useSWR, { useSWRConfig } from "swr"
-import { IMessage } from "../interfaces"
+import { IMessage } from "../../interfaces"
 import instance from "./interceptor"
 
 export class SendMessages {
