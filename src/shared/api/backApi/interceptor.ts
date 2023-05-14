@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const API_URL = process.env.API_URL;
+export const API_URL = process.env.API_URL || "https://api.green-api.com/waInstance";
 
 const axiosInstance = axios.create({
   baseURL: "https://api.green-api.com/waInstance",
@@ -27,3 +27,11 @@ function instance(url:string) {
 }
 
 export default instance;
+  
+export class MainApi {
+  getRequestUrl(url: string) {
+    const tokens = JSON.parse(localStorage.getItem("authKeys") || "");
+    return API_URL + tokens.idInstance + url + tokens.apiTokenInstance
+  }
+}
+

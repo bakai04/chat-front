@@ -25,7 +25,7 @@ const Wrapper = styled(MenuItem)`
 `
 const Header = styled(AppBar)`
   box-shadow: none;
-  border-left: 1px solid ${({ theme }) => theme.palette.background.default};
+  border-left: 1px solid #181818;
 `
 
 export const RightColumnHeader = () => {

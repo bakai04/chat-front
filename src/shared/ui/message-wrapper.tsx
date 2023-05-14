@@ -13,7 +13,7 @@ const Wrapper = styled(Paper) <{ borderRadius: string, own: boolean }>`
   max-width: 60%;
   width: 100%;
   border-radius: ${({ borderRadius }) => borderRadius};
-  background-color: ${({ own, theme }) => own ? theme.palette.background.paper : theme.palette.primary.main };
+  background-color: ${({ own }) => own ? "#212121" : "#8774e1" };
 `
 
 const MessageWrapper = (props: IMessageWrapper) => {
