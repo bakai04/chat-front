@@ -6,34 +6,30 @@ import MessageList from "@/features/message-list";
 import Image from "next/image";
 
 interface RightColumn {
-  children: React.ReactNode;
 }
 
 const Wrapper = styled.div`
   position: relative;
   flex: 1;
   height: 100vh;
-  background: url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
+  background: url(https://i.pinimg.com/564x/a4/6a/99/a46a995666a320eedb11f71bdc88db36.jpg);
+  background-size: cover;
+  width: 100%;
 `
-const RightColumnBackground = styled.div`
-  position: absolute;
-  z-index: 1;
-  background-image: url("https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png");
-  top: 0px;
-  left: 0px;
+
+const RightColumnContent = styled.div`
   height: 100vh;
-  width: 100vw;
+  width: 100%;
 `
 
 export const RightColumn = (props: RightColumn) => {
   return (
     <Wrapper>
-      <RightColumnBackground>
-        <Image src="https://web.whatsapp.com/img/bg-chat-tile-dark_a4be512e7195b6b733d9110b408f075d.png" alt="alt" />
-      </RightColumnBackground>
-      <RightColumnHeader />
-      <MessageList />
-      <NewMessage />
+      <RightColumnContent>
+        <RightColumnHeader />
+        <MessageList />
+        <NewMessage />
+      </RightColumnContent>
     </Wrapper>
   )
 }

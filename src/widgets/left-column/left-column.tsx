@@ -1,3 +1,4 @@
+import CreateContact from "@/features/create-contact";
 import styled from "@emotion/styled";
 import React from 'react';
 import { ChatList } from "./chat-list";
@@ -7,6 +8,7 @@ const Wrapper = styled.div`
   flex: 0 0 420px;
   height: 100vh;
   max-width: 420px;
+  position: relative;
 `
 
 export const LeftColumn = () => {
@@ -14,6 +16,7 @@ export const LeftColumn = () => {
     <Wrapper>
       <LeftColumnHeader/>
       <ChatList/>
+      <CreateContact />
     </Wrapper>
   )
 }

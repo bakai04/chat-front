@@ -1,4 +1,3 @@
-import { SerializedStyles } from "@emotion/react"
 import styled from "@emotion/styled"
 import { css, Paper } from "@mui/material"
 import React, { useMemo } from 'react'
@@ -9,11 +8,12 @@ interface IMessageWrapper {
   type: MessageSender,
 }
 
-const Wrapper = styled(Paper) <{ borderRadius: string }>`
+const Wrapper = styled(Paper) <{ borderRadius: string, own: boolean }>`
   padding: 10px;
   max-width: 60%;
   width: 100%;
   border-radius: ${({ borderRadius }) => borderRadius};
+  background-color: ${({ own }) => own ? "#212121" : "#8774e1" };
 `
 
 const MessageWrapper = (props: IMessageWrapper) => {
@@ -23,7 +23,7 @@ const MessageWrapper = (props: IMessageWrapper) => {
   }[props.type]
 
   return (
-    <Wrapper borderRadius={borderRadius} color={"#8774e1"}>
+    <Wrapper borderRadius={borderRadius} own={props.type === "outgoing"}>
       {props.children}
     </Wrapper>
   )

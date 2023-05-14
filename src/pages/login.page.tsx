@@ -5,9 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from 'react';
 import Logo from "../assets/images/Chat.png";
-import { pages } from "./_router";
 import * as Yup from "yup";
-import { callToast } from "@/shared/lib/call-toast";
 import { PasswordInput } from "@/shared/ui";
 import { useRouter } from "next/router";
 
@@ -42,73 +40,51 @@ const SendButton = styled(Button)`
   width: 100%;
 `
 
-const ButtonLink = styled(Link)`
-  color: #FFF;
-  text-decoration: none;
-  width: 100%;
-`
 export const validationSchema = Yup.object().shape({
-  email: Yup.string().required("Обязательное поле").email("Введите правильный адрес"),
-  password: Yup.string()
-    .required("Обязательное поле")
-    .uppercase("Пароль должен содержать за главную букву")
-    .min(6, "Пароль должен превышать 6 символов"),
+  idInstance: Yup.string().required("Обязательное поле"),
+  apiTokenInstance: Yup.string().required("Обязательное поле")
 });
 
+interface ILoginData {
+  idInstance: string,
+  apiTokenInstance: string
+}
 
 const Login = () => {
   const router = useRouter();
-  
-  const handleSubmit = async (value: any) => {
-    // const response = await api.userAuth.login(value);
-    // if (response.raw.ok) {
-    //   const tokens = await response.value();
-    //   localStorage.setItem("token", JSON.stringify(tokens));
-    //   router.push("/");
-    // } else {
-    //   callToast(response);
-    // }
+  const handleSubmit = async (value: ILoginData) => {
+    localStorage.setItem("authKeys", JSON.stringify(value));
+    router.push("/");
   }
-
   return (
     <Wrapper>
       <Image src={Logo} width={96} height={96} alt={"logo"} />
       <Title variant={"h1"} align={"center"}>Welcome to Scale Chat</Title>
       <Formik
         initialValues={{
-          email: "",
-          password: "",
+          idInstance: "",
+          apiTokenInstance: "",
         }}
-        validateOnChange
-        validateOnBlur
         validationSchema={validationSchema}
         onSubmit={(values) => {
           handleSubmit(values)
         }}
       >
-        {({ handleChange, handleBlur, errors }) => (
+        {({ handleChange, errors }) => (
           <FormWrapper>
             <Input
               onChange={handleChange}
-              onBlur={handleBlur}
-              name={"email"}
-              type={"email"}
-              label={errors.email || "email"}
-              error={!!errors.email}
+              name={"idInstance"}
+              label={errors.idInstance || "idInstance"}
+              error={!!errors.idInstance}
               variant="outlined" />
-            <PasswordInput
+            <Input
               onChange={handleChange}
-              name={"password"}
-              type={"password"}
-              label={errors.password || "password"}
-              error={!!errors.password}
+              name={"apiTokenInstance"}
+              label={errors.apiTokenInstance || "apiTokenInstance"}
+              error={!!errors.apiTokenInstance}
               variant="outlined" />
             <SendButton size="medium" variant="contained" type="submit">Login</SendButton>
-            <ButtonLink href={pages.signUp.href} type={"button"}>
-              <SendButton size="medium" variant="contained" >
-                Create a new account
-              </SendButton>
-            </ButtonLink>
           </FormWrapper>
         )}
       </Formik>
