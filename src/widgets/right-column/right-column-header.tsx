@@ -31,17 +31,16 @@ const Header = styled(AppBar)`
 export const RightColumnHeader = () => {
   const router = useRouter();
   const { chat } = router.query;
-  const { data } = api.contacts.useGetContactInfo({ chatId: chat as string || "" })
+  // const { data } = api.contacts.useGetContactInfo({ chatId: chat as string || "" })
 
-  console.log(data);
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Header position="static">
         <Wrapper>
-          <Avatar src={"https://djinni.co/api/imgproxy/-uvoyTuU6XlKfnWog-PBWnel932YXvV-boWERB7GkvY/rs:fit:280:280:True/aHR0cHM6Ly9wLmRq/aW5uaS5jby9iZi82/NzMwYTc2MjI2M2Ix/YzI2Y2NmNjdkZTNl/NzY2OWQvMkQ4QUUx/ODgtMDZGRS00ODM3/LTg4RUYtMDk4NUMy/MTlCNzg4XzQwMC5q/cGc.jpg"} />
+          <Avatar />
           <ChatInner>
-            <Name paragraph noWrap>{"legenda"}</Name>
-            <Message paragraph noWrap>Online</Message>
+            <Name paragraph noWrap>{chat}</Name>
+            {/* <Message paragraph noWrap>{data?.lastSeen}</Message> */}
           </ChatInner>
         </Wrapper>
       </Header>

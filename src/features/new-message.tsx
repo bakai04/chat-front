@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from "@emotion/styled";
 import { IconButton } from "@mui/material";
 import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
 import AttachFileIcon from '@mui/icons-material/AttachFile';
 import SendIcon from '@mui/icons-material/Send';
+import { api } from "@/shared/api";
+import { useRouter } from "next/router";
+import { useSWRConfig } from "swr";
 
-const Footer = styled.footer`
+const Form = styled.form`
   position: absolute;
   display: flex;
   align-items: flex-end;
@@ -33,7 +36,7 @@ const ContentEditableDiv = styled.div`
 const SendButton = styled(IconButton)`
 `
 
-const Form = styled.form`
+const Content = styled.div`
   width: 100%;
   display: flex;
   gap: 10px;
@@ -44,22 +47,35 @@ const Form = styled.form`
 `
 
 const NewMessage = () => {
+  const router = useRouter()
+  const { chat:chatId } = router.query;
+  const [message, setMessage] = useState("");
+  const mutation = useSWRConfig()
+
+  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const response = await api.messages.sendMessage({chatId: chatId as string, message });
+  }
+
+  const handleChange = async (e: React.ChangeEvent<HTMLDivElement>) => {
+    setMessage(e.currentTarget.textContent as string);
+  }
+
   return (
-    <Footer>
-      <Form>
+    <Form onSubmit={handleSubmit}>
+      <Content>
         <IconButton size="small">
           <SentimentSatisfiedAltOutlinedIcon fontSize={"medium"} />
         </IconButton>
-        <ContentEditableDiv contentEditable placeholder="Message">
-        </ContentEditableDiv>
+        <ContentEditableDiv onInput={handleChange} contentEditable placeholder="Message"/>
         <IconButton size="small">
           <AttachFileIcon fontSize={"medium"} />
         </IconButton>
-      </Form>
-      <SendButton size="large">
+      </Content>
+      <SendButton size="large" type={"submit"}>
         <SendIcon fontSize={"medium"} />
       </SendButton>
-    </Footer>
+    </Form>
   )
 }
 

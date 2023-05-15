@@ -1,106 +1,49 @@
 import Message from "@/entities/message";
-import { IMessage } from "@/shared/interfaces";
+import { api } from "@/shared/api";
+import { useScroll } from "@/shared/lib";
 import styled from "@emotion/styled";
-import React from 'react'
-
-const messages: IMessage[] = [
-  {
-    type: "outgoing",
-    idMessage: "E2D2BF2EBC3793BC29C8Ddas9CE60535250",
-    timestamp: 1683872290,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Бир жарым айда",
-    statusMessage: "",
-    sendByApi: false
-  },
-  {
-    type: "outgoing",
-    idMessage: "E2D2BF2EBC3793BC29C8D9CasdE60535250",
-    timestamp: 1683872290,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Бир жарым айда",
-    statusMessage: "",
-    sendByApi: false
-  },
-  {
-    type: "outgoing",
-    idMessage: "E2D2BF2EBC3793BC29aa8D9CE60535250",
-    timestamp: 1683872290,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Бир жарым айда",
-    statusMessage: "",
-    sendByApi: false
-  },
-  {
-    type: "incoming",
-    idMessage: "EE8B9D8A48BC59DBCBa7D7B61F7D061A0",
-    timestamp: 1683872273,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Эки Катар",
-    statusMessage: "",
-    sendByApi: false
-  },
-  {
-    type: "incoming",
-    idMessage: "EE8B9D8A48BC59DBCBs7D7B61F7D061A0",
-    timestamp: 1683872273,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Эки Катар",
-    statusMessage: "",
-    sendByApi: false
-  },
-   {
-    type: "incoming",
-    idMessage: "EE8B9D8A48BC59DBCB7D7B6d1F7D061A0",
-    timestamp: 1683872273,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Эки Катар",
-    statusMessage: "",
-    sendByApi: false
-  },
-  {
-    type: "incoming",
-    idMessage: "EE8B9D8A48BC59DBCB7sD7B61F7D061A0",
-    timestamp: 1683872273,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Эки Катар",
-    statusMessage: "",
-    sendByApi: false
-  },
-  {
-    type: "incoming",
-    idMessage: "EE8B9D8A48BC59DBCB7D7B61F7dD061A0",
-    timestamp: 1683872273,
-    typeMessage: "textMessage",
-    chatId: "120363040007103523@g.us",
-    textMessage: "Эки Катар",
-    statusMessage: "",
-    sendByApi: false
-  },
-]
+import { CircularProgress } from "@mui/material";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from 'react'
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: column-reverse;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: fit-content;
+  max-height: calc(100% - 135px);
   gap: 10px;
-  padding: 0px 20px;
+  padding: 10px 20px 0px 0px;
+`
+
+const Loader = styled(CircularProgress)`
+  margin: 0 auto;
 `
 
 const MessageList = () => {
+  const router = useRouter();
+  const { chat: chatId } = router.query;
+  const [count, setCount] = useState(30);
+  const { data, mutate, isLoading } = api.messages.useGetMessages({ chatId: chatId as string, count });
+  const ref = useScroll(() => { setCount(prev => prev + 10) });
+
+  useEffect(() => {
+    mutate();
+  }, [count, chatId, mutate])
+
   return (
-    <Wrapper>
+    <Wrapper ref={ref}>
       {
-        messages.map((elem) => (
-          <Message key={elem.idMessage} data={elem}/>
-        ))
+        data?.map((elem) => {
+          if (elem.typeMessage === "textMessage") {
+            return (
+              <Message key={elem.idMessage} data={elem} />
+            )
+          }
+        })
       }
+      {isLoading && <Loader color="inherit" style={{ width: "30px" }} />}
     </Wrapper>
   )
 }

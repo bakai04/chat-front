@@ -1,9 +1,10 @@
-import { Chats, Contacts } from "./backApi";
+import { Chats, Contacts, Messages } from "./backApi";
 
 
 export class BackApi {
   readonly chats = new Chats();
   readonly contacts = new Contacts();
+  readonly messages = new Messages();
 }
 
 

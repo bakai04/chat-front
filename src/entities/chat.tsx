@@ -5,11 +5,15 @@ import Link from "next/link"
 import React from 'react'
 
 const Name = styled(Typography)`
+  text-decoration: none;
+  color: #FFF;
   font-size: 16px;
   margin: 0px;
 `
 
 const Message = styled(Typography)`
+  text-decoration: none;
+  color: #FFF;
   font-size: 14px;
   margin: 0px;
   width: 80%;
@@ -18,9 +22,6 @@ const Message = styled(Typography)`
 const ChatInner = styled(Typography)`
   width: 100%;
   margin-left: 10px;
-`
-const Line = styled(Divider)`
-  margin: 0 !important;
 `
 
 const Wrapper = styled(MenuItem)`
@@ -35,7 +36,7 @@ interface ChatProps {
 
 export const Chat = (props: ChatProps) => {
   return (
-    <Link href={`/chat/${props.data.id}`}>
+    <Link href={`/chat/${props.data.id}`} style={{textDecoration: "none"}}>
       <Wrapper>
         <Avatar style={{ width: "54px", height: "54px" }} />
         <ChatInner>
