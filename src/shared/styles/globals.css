@@ -23,3 +23,8 @@ body {
   opacity: 0.5 !important;
   background-color: #374045;
 }
+
+ input{
+    -webkit-appearance: none;
+    appearance: none;
+  }

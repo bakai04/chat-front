@@ -4,11 +4,10 @@ import { useEffect } from "react"
 
 const Home = () => {
   const router = useRouter();
-  useEffect(()=>{
+  useEffect(() => {
     const isAuth = localStorage.getItem("authKeys");
-    if(!isAuth) router.push("/login");
-  }, [router])
-
+    if (!isAuth) router.push("/login");
+  }, [router]);
   return (
     <MainLayout>
       <LeftColumn/>

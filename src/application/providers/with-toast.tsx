@@ -1,13 +1,12 @@
 import { useTheme } from "@/shared/lib/theme";
 import { AppProps } from "next/app"
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const withToast = (app: (props: AppProps) => React.ReactNode) => {
   const WithToast = (props: AppProps) => {
-    const [ currentTheme ]= useTheme();
-
+    const [currentTheme] = useTheme();
     return (
       <>
         <ToastContainer

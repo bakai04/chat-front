@@ -19,7 +19,7 @@ const Wrapper = styled(Paper) <{ own: boolean }>`
 const MessageWrapper = (props: IMessageWrapper) => {
 
   return (
-    <Wrapper own={props.type === "outgoing"}>
+    <Wrapper own={(props.type === "outgoing") || (props.type === "outgoingAPIMessageReceived")}>
       {props.children}
     </Wrapper>
   )

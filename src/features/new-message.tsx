@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import styled from "@emotion/styled";
 import { IconButton } from "@mui/material";
 import SentimentSatisfiedAltOutlinedIcon from '@mui/icons-material/SentimentSatisfiedAltOutlined';
@@ -48,13 +48,17 @@ const Content = styled.div`
 
 const NewMessage = () => {
   const router = useRouter()
-  const { chat:chatId } = router.query;
+  const { chat: chatId } = router.query;
   const [message, setMessage] = useState("");
-  const mutation = useSWRConfig()
+  const ref = useRef<HTMLDivElement | null>(null)
 
-  const handleSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const response = await api.messages.sendMessage({chatId: chatId as string, message });
+    const response = await api.messages.sendMessage({ chatId: chatId as string, message });
+    if (ref.current) {
+      ref.current.textContent = "";
+    }
+    setMessage("");
   }
 
   const handleChange = async (e: React.ChangeEvent<HTMLDivElement>) => {
@@ -67,7 +71,7 @@ const NewMessage = () => {
         <IconButton size="small">
           <SentimentSatisfiedAltOutlinedIcon fontSize={"medium"} />
         </IconButton>
-        <ContentEditableDiv onInput={handleChange} contentEditable placeholder="Message"/>
+        <ContentEditableDiv onInput={handleChange} contentEditable ref={ref} placeholder="Message" />
         <IconButton size="small">
           <AttachFileIcon fontSize={"medium"} />
         </IconButton>

@@ -4,7 +4,7 @@ export interface IChat {
   notSpam: boolean,
   ephemeralExpiration: number,
   ephemeralSettingTimestamp: number,
-  name: string,
+  name?: string,
 }
 
 export interface IContact {

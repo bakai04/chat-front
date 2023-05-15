@@ -31,16 +31,18 @@ const Header = styled(AppBar)`
 export const RightColumnHeader = () => {
   const router = useRouter();
   const { chat } = router.query;
-  // const { data } = api.contacts.useGetContactInfo({ chatId: chat as string || "" })
+  const { data } = api.contacts.useGetContactInfo({ chatId: chat as string || "" })
 
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Header position="static">
         <Wrapper>
-          <Avatar />
+          <Avatar src={data?.avatar} />
           <ChatInner>
-            <Name paragraph noWrap>{chat}</Name>
-            {/* <Message paragraph noWrap>{data?.lastSeen}</Message> */}
+            <Name paragraph noWrap>{data ? data.name : chat}</Name>
+            {data?.lastSeen &&
+              <Message paragraph noWrap>{"sd"}</Message>
+            }
           </ChatInner>
         </Wrapper>
       </Header>

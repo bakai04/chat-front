@@ -36,11 +36,11 @@ interface ChatProps {
 
 export const Chat = (props: ChatProps) => {
   return (
-    <Link href={`/chat/${props.data.id}`} style={{textDecoration: "none"}}>
+    <Link href={`/chat/${props.data.id}`} style={{ textDecoration: "none" }}>
       <Wrapper>
         <Avatar style={{ width: "54px", height: "54px" }} />
         <ChatInner>
-          <Name paragraph noWrap>{props.data.name}</Name>
+          <Name paragraph noWrap>{props.data.name || "+" + props.data.id.replace(/\D/g, "")}</Name>
           <Message paragraph noWrap>. . .</Message>
         </ChatInner>
       </Wrapper>

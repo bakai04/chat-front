@@ -9,4 +9,9 @@ export class Chats extends MainApi {
       return await axios.get<IChat[]>(this.getRequestUrl("/getContacts/")).then(resp => resp.data)
     })
   }
+
+  useCheckWhatsapp = async (data: {phoneNumber: number}):Promise<{existsWhatsapp: boolean}> => {
+    const body = JSON.stringify(data);
+    return await(axios.post<{existsWhatsapp: boolean}>(this.getRequestUrl("/checkWhatsapp/"), body).then(resp => resp.data));
+  }
 }
