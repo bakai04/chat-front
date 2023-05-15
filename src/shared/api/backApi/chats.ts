@@ -1,7 +1,7 @@
 import { IChat } from "@/shared/interfaces/chats"
 import axios from "axios"
 import useSWR, { SWRResponse, useSWRConfig } from "swr"
-import instance, { MainApi } from "./interceptor"
+import { MainApi } from "./interceptor"
 
 export class Chats extends MainApi {
   useGetChats = ():SWRResponse<IChat[]> => {

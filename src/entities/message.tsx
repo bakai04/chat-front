@@ -8,6 +8,9 @@ const Wrapper = styled.div<{ own: boolean }>`
   display: flex;
   justify-content: ${({own}) => own ? "flex-end" : "flex-start"};
 `
+const TextMessage = styled(Typography)`
+  word-wrap: break-word;
+`
 
 interface IMessageProps {
   data: IMessage
@@ -15,9 +18,9 @@ interface IMessageProps {
 
 const Message = ({ data }: IMessageProps) => {
   return (
-    <Wrapper own={data.type === "incoming"}>
+    <Wrapper own={data.type === "outgoing"}>
       <MessageWrapper type={data.type}>
-        <Typography>{data.textMessage}</Typography>
+        <TextMessage >{data.textMessage}</TextMessage>
       </MessageWrapper>
     </Wrapper>
   )

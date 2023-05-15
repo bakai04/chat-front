@@ -1,7 +1,7 @@
 import { Chat } from "@/entities"
 import { api } from "@/shared/api/init"
 import styled from "@emotion/styled"
-import { MenuItem, MenuList } from "@mui/material"
+import { MenuList } from "@mui/material"
 import React from 'react'
 
 
@@ -15,7 +15,6 @@ const Wrapper = styled(MenuList)`
 export const ChatList = () => {
   const { data } = api.chats.useGetChats();
 
-  console.log(data)
   return (
     <Wrapper>
       {
