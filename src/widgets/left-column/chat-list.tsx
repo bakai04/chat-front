@@ -2,7 +2,7 @@ import { Chat } from "@/entities"
 import { api } from "@/shared/api/init"
 import styled from "@emotion/styled"
 import { MenuList } from "@mui/material"
-import React from 'react'
+import React, { useState } from 'react'
 
 
 const Wrapper = styled(MenuList)`
@@ -13,6 +13,7 @@ const Wrapper = styled(MenuList)`
 `
 
 export const ChatList = () => {
+  const [count, setState] = useState();
   const { data } = api.chats.useGetChats();
 
   return (

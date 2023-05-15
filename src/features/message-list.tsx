@@ -1,10 +1,12 @@
 import Message from "@/entities/message";
 import { api } from "@/shared/api";
+import { IMessage } from "@/shared/interfaces";
 import { useScroll } from "@/shared/lib";
 import styled from "@emotion/styled";
 import { CircularProgress } from "@mui/material";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from 'react'
+import { toast } from "react-toastify";
 
 const Wrapper = styled.div`
   display: flex;
@@ -16,7 +18,6 @@ const Wrapper = styled.div`
   gap: 10px;
   padding: 10px 20px 0px 0px;
 `
-
 const Loader = styled(CircularProgress)`
   margin: 0 auto;
 `
@@ -24,26 +25,61 @@ const Loader = styled(CircularProgress)`
 const MessageList = () => {
   const router = useRouter();
   const { chat: chatId } = router.query;
-  const [count, setCount] = useState(30);
-  const { data, mutate, isLoading } = api.messages.useGetMessages({ chatId: chatId as string, count });
-  const ref = useScroll(() => { setCount(prev => prev + 10) });
+  const [count, setCount] = useState(20);
+  const [messageList, setMessageList] = useState<IMessage[]>([]);
+  const ref = useScroll(undefined, () => setCount(prev => prev + 10));
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    mutate();
-  }, [count, chatId, mutate])
+    const intervalId = setInterval(async () => {
+      const response = await api.messages.getReceiveNotification();
+      if (response) {
+        api.messages.deleteReceiveNotification(response.receiptId);
+      }
+      if (response && response.body.messageData && response.body.senderData.chatId === chatId) {
+        const newMessageData = {
+          textMessage: response?.body.messageData?.textMessageData?.textMessage || response?.body.messageData?.extendedTextMessageData.text,
+          typeMessage: response?.body?.messageData?.typeMessage,
+          type: response?.body.typeWebhook,
+          idMessage: response?.body.idMessage,
+          chatId: response.body.senderData.chatId,
+          timestamp: response.body.timestamp || 0,
+          senderName: response.body.senderData.senderName,
+        }
+        setMessageList(prev => [newMessageData, ...prev])
+      }
+    }, 5000);
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
+  useEffect(() => {
+    setCount(20);
+  }, [chatId])
+
+  useEffect(() => {
+    setIsLoading(true)
+    const fetchMessagesPage = async () => {
+      const messages = await api.messages.useGetMessages({ chatId: chatId as string, count })
+      setMessageList(messages);
+      setIsLoading(false);
+    }
+    fetchMessagesPage();
+  }, [count, chatId])
 
   return (
     <Wrapper ref={ref}>
       {
-        data?.map((elem) => {
-          if (elem.typeMessage === "textMessage") {
+        messageList?.map((elem) => {
+          if (elem.textMessage && elem.textMessage?.length !== 0) {
             return (
               <Message key={elem.idMessage} data={elem} />
             )
           }
         })
       }
-      {isLoading && <Loader color="inherit" style={{ width: "30px" }} />}
+      {isLoading && <Loader style={{ width: "30px", height: "30px" }} />}
     </Wrapper>
   )
 }

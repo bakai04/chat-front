@@ -2,11 +2,9 @@ import styled from "@emotion/styled";
 import { Button, TextField, Typography } from "@mui/material";
 import { Form, Formik } from "formik";
 import Image from "next/image";
-import Link from "next/link";
 import React from 'react';
 import Logo from "../assets/images/Chat.png";
 import * as Yup from "yup";
-import { PasswordInput } from "@/shared/ui";
 import { useRouter } from "next/router";
 
 const Wrapper = styled.div`

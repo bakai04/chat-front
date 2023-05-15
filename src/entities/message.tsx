@@ -18,7 +18,7 @@ interface IMessageProps {
 
 const Message = ({ data }: IMessageProps) => {
   return (
-    <Wrapper own={data.type === "outgoing"}>
+    <Wrapper own={(data.type === "outgoing") || (data.type === "outgoingAPIMessageReceived")}>
       <MessageWrapper type={data.type}>
         <TextMessage >{data.textMessage}</TextMessage>
       </MessageWrapper>
