@@ -22,7 +22,7 @@ export const ChatList = () => {
   return (
     <Wrapper ref={ref}>
       {
-        data?.slice(0, count).map((elem) => (
+        data?.slice(0, count)?.map((elem) => (
           <Chat key={elem.id} data={elem} />
         ))
       }

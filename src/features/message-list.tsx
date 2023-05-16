@@ -63,7 +63,7 @@ const MessageList = () => {
   useEffect(() => {
     setIsLoading(true)
     const fetchMessagesPage = async () => {
-      const messages = await api.messages.useGetMessages({ chatId: chatId as string, count })
+      api.messages.useGetMessages({ chatId: chatId as string, count })
         .then(resp => {
           setMessageList(resp);
           setIsLoading(false);
