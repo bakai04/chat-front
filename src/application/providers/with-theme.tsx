@@ -9,7 +9,7 @@ export const withTheme = (app: (props: AppProps) => React.ReactNode) => {
     const [currentTheme] = useTheme();
 
     return (
-      <ThemeProvider theme={currentTheme || lightTheme}>
+      <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         {app(props)                                                                                                                                        }
       </ThemeProvider>
