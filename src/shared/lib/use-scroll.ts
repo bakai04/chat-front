@@ -17,7 +17,7 @@ export const useScroll = (
           onScrollTop();
         }
 
-        if (scrollHeight + scrollTop === clientHeight && onScrollBottom) {
+        if (Math.abs(scrollHeight) - Math.abs(scrollTop) === clientHeight && onScrollBottom) {
           onScrollBottom();
         }
       }
