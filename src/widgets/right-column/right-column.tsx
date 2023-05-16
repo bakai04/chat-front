@@ -6,6 +6,7 @@ import MessageList from "@/features/message-list";
 import Image from "next/image";
 
 interface RightColumn {
+  children?: React.ReactNode;
 }
 
 const Wrapper = styled.div`
@@ -26,9 +27,7 @@ export const RightColumn = (props: RightColumn) => {
   return (
     <Wrapper>
       <RightColumnContent>
-        <RightColumnHeader />
-        <MessageList />
-        <NewMessage />
+        {props.children}
       </RightColumnContent>
     </Wrapper>
   )

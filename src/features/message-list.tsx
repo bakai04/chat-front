@@ -16,7 +16,7 @@ const Wrapper = styled.div`
   height: fit-content;
   max-height: calc(100% - 135px);
   gap: 10px;
-  padding: 10px 20px 0px 0px;
+  padding: 10px 20px 0px 20px;
 `
 const Loader = styled(CircularProgress)`
   margin: 0 auto;
@@ -36,6 +36,7 @@ const MessageList = () => {
       if (response) {
         api.messages.deleteReceiveNotification(response.receiptId);
       }
+      console.log(response)
       if (response && response.body.messageData && response.body.senderData.chatId === chatId) {
         const newMessageData = {
           textMessage: response?.body.messageData?.textMessageData?.textMessage || response?.body.messageData?.extendedTextMessageData.text,
@@ -56,14 +57,18 @@ const MessageList = () => {
 
   useEffect(() => {
     setCount(20);
+    setMessageList([]);
   }, [chatId])
 
   useEffect(() => {
     setIsLoading(true)
     const fetchMessagesPage = async () => {
       const messages = await api.messages.useGetMessages({ chatId: chatId as string, count })
-      setMessageList(messages);
-      setIsLoading(false);
+        .then(resp => {
+          setMessageList(resp);
+          setIsLoading(false);
+        })
+        .catch(e => { toast.error("Произошла ошибка при загрузке история чата") })
     }
     fetchMessagesPage();
   }, [count, chatId])
