@@ -34,20 +34,20 @@ const MessageList = () => {
     const intervalId = setInterval(async () => {
       const response = await api.messages.getReceiveNotification();
       if (response) {
-        api.messages.deleteReceiveNotification(response.receiptId);
-      }
-      console.log(response)
-      if (response && response.body.messageData && response.body.senderData.chatId === chatId) {
-        const newMessageData = {
-          textMessage: response?.body.messageData?.textMessageData?.textMessage || response?.body.messageData?.extendedTextMessageData.text,
-          typeMessage: response?.body?.messageData?.typeMessage,
-          type: response?.body.typeWebhook,
-          idMessage: response?.body.idMessage,
-          chatId: response.body.senderData.chatId,
-          timestamp: response.body.timestamp || 0,
-          senderName: response.body.senderData.senderName,
-        }
-        setMessageList(prev => [newMessageData, ...prev])
+        api.messages.deleteReceiveNotification(response.receiptId).then(() => {
+          if (response && response.body.messageData && response.body.senderData.chatId === chatId) {
+            const newMessageData = {
+              textMessage: response?.body.messageData?.textMessageData?.textMessage || response?.body.messageData?.extendedTextMessageData.text,
+              typeMessage: response?.body?.messageData?.typeMessage,
+              type: response?.body.typeWebhook,
+              idMessage: response?.body.idMessage,
+              chatId: response.body.senderData.chatId,
+              timestamp: response.body.timestamp || 0,
+              senderName: response.body.senderData.senderName,
+            }
+            setMessageList(prev => [newMessageData, ...prev])
+          }
+        });
       }
     }, 5000);
     return () => {
@@ -63,7 +63,7 @@ const MessageList = () => {
   useEffect(() => {
     setIsLoading(true)
     const fetchMessagesPage = async () => {
-      const messages = await api.messages.useGetMessages({ chatId: chatId as string, count })
+      api.messages.useGetMessages({ chatId: chatId as string, count })
         .then(resp => {
           setMessageList(resp);
           setIsLoading(false);
